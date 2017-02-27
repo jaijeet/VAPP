@@ -1,0 +1,48 @@
+This directory contains examples of common Verilog-A models and their
+ModSpec versions translated using VAPP. The simulation/analysis scripts in the
+examples directory are meant to demonstrate the use of VAPP together with MAPP.
+For more information about each example type 'help VAPPexamples' at a
+MATLAB/Octave prompt.
+
+ABOUT VERILOG-A MODEL LICENCES
+==============================
+The use of VAPP is governed by the terms of the GNU Public License (GPL),
+version 3. Any Verilog-A files that are distributed within VAPP are governed by
+their original licenses. Modifications to the original Verilog-A model files
+are indicated as such in the file headers and are subject to the conditions in
+the license of the original Verilog-A file. Please see the individual Verilog-A
+model files for detailed license information.
+
+ABOUT CHANGES TO VERILOG-A FILES
+================================
+The most common change in Verilog-A models is to eliminate voltages that are
+referenced to a global ground. I.e, 
+
+V(drain) is changed to e.g, V(drain, bulk).
+
+VAPP only allows the use of access functions that have a branch as argument.
+This can be done in two ways:
+    1) A branch is defined and the access function is called with that name,
+       e.g,
+
+        branch (drain, bulk) br_db; Vdb = V(br_db);
+
+    2) The access function is called with explicitly supplying two nodes as
+       arguments, e.g, 
+
+        Vdb = V(drain, bulk);
+
+Another common change is the rearranging of the list of model terminals. This
+is sometimes required because VAPP assumes that the last terminal in this list
+is the reference terminal.
+
+Other changes are made to disable some features that are not yet supported by
+VAPP. Some of these Verilog-A language features are
+    * ddx function
+    * multi-output analog functions
+
+Finally there are changes to disable Verilog-A constructs that are not in
+accordance with NEEDS compatibility requirements. The most important among
+these are simulator directives that start with '@'. VAPP does not support
+simulator directives such as @(initial_step) and is not planned to support them
+in the future.

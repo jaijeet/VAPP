@@ -1,0 +1,78 @@
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Copyright @ 2015 Purdue University
+ 
+//The terms under which the software and associated documentation (the Software) is provided are as the following:
+ 
+//The Software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, 
+// fitness for a particular purpose and noninfringement. In no event shall the authors or copyright holders be liable for any claim, damages or other 
+// liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the Software or the use or other dealings
+//  in the Software.
+ 
+//Purdue grants, free of charge, to any users the right to modify, copy, and redistribute the Software, both within the user's organization and 
+// externally, subject to the following restrictions:
+ 
+//1. The users agree not to charge for the code itself but may charge for additions, extensions, or support.
+ 
+//2. In any product based on the Software, the users agree to acknowledge the Negative capacitor model Research Group that developed the software. This 
+// acknowledgment shall appear in the product documentation.
+ 
+//3. The users agree to obey all U.S. Government restrictions governing redistribution or export of the software.
+ 
+//4. The users agree to reproduce any copyright notice which appears on the software on any copy or modification of such made available to others.
+ 
+//Agreed to by 
+//Muhammad A. Wahab and Muhammad Ashraf Alam, Purdue University
+//May 10, 2015
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/*****************************************************************/
+//revision log
+/*****************************************************************/
+// Deployed on 04/05/2016 as a part of verilog-a NCFET model version 1.1.0 by Muhammad A. Wahab
+// Added dipole response
+/*****************************************************************/
+/*****************************************************************/
+// Deployed on 11/29/2015 as a part of verilog-a NCFET model version 1.0.0 by Muhammad A. Wahab
+/*****************************************************************/
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Verilog-A version of Potential Model for negative capacitor 
+// Implemented on May 10, 2015 by Muhammad A. Wahab
+// Default parameters are from References of the manual
+
+// Last modified: Tue Feb 21, 2017  04:20PM
+// by A. Gokcen Mahmutoglu, University of California, Berkeley
+//
+// modifications for NEEDS compatibility:
+// 1. Put the qg_as_v node to the second place in the module terminal list
+//    (VAPP uses the last node in the list as the reference node)
+// 2. change instances of V(qg_as_v) to V(qg_as_v, ncn)
+//    (Needs compatiblity does not allow references to the global ground )
+`include "constants.vams"
+`include "disciplines.vams"
+
+module neg_cap_3t(ncp, qg_as_v, ncn);
+inout ncp, ncn, qg_as_v;
+electrical ncp, ncn, qg_as_v;
+
+                                      	
+parameter real 		alpha          	= -1.8e11 			from (-inf:inf);
+parameter real 		beta          	= 5.8e22 			from (-inf:inf);
+parameter real 		gamma          	= 0.0   			from (-inf:inf);
+parameter real 		rho          	= 9e0 			    from [0:inf);
+parameter real 		tFE          	= 10e-7 			from [0:inf);	
+
+analog begin
+       
+       //Potential across the ferroelectric capacitor, eq (5) of the manual
+       //1e-6 is used for unit conversion of charge: uCoul to Coul
+       V(ncp,ncn)   <+ 2*alpha*tFE*(V(qg_as_v, ncn)*1e-6)+4*beta*tFE*pow((V(qg_as_v, ncn)*1e-6),3.0)+6*gamma*tFE*pow((V(qg_as_v, ncn)*1e-6),5.0); 
+       V(ncp,ncn)   <+ rho*tFE*ddt(V(qg_as_v, ncn)*1e-6);
+
+       end
+endmodule
+
+	
+	
+
+

@@ -1,0 +1,12 @@
+%==============================================================================
+% This file is part of VAPP, the Berkeley Verilog-A Parser and Processor.
+% Author: A. Gokcen Mahmutoglu
+% Last modified: Mon Feb 20, 2017  06:01PM
+%==============================================================================
+
+NOTES on BSIM6
+==============
+* BSIM6 makes use of Verilog-A's ddx function. This function is not implemented
+  in VAPP yet.
+
+* This model needs better parameters to produce nice curves.

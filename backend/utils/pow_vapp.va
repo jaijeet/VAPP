@@ -1,0 +1,8 @@
+analog function real pow_vapp;
+    input base, exponent;
+    output outVal;
+    real base, exponent, outVal;
+    begin
+        outVal = base**exponent;
+    end
+endfunction
