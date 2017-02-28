@@ -1,0 +1,112 @@
+CYGWINPREFIX=@CYGWINPREFIX@
+VAPPTOP=@VAPPTOP@
+VAPPVERSION=@VAPPVERSION@
+VAPPLOCALLINKSDIR=@VAPPLOCALLINKSDIR@
+#VAPPINSTALLDIR=$(CYGWINPREFIX)@prefix@
+	# WATCH OUT for terminating spaces in the above!
+DATESTRING=$(shell date +%F-%H%M)
+VAPPRELEASESNAPSHOTNAME=$(VAPPVERSION)-release-snapshot-$(DATESTRING)
+#####
+
+VAPPVERSION=@THEVERSION@
+BRANCHNAME=@BRANCHNAME@
+CYGWINPREFIX=@CYGWINPREFIX@
+VAPPLOCALLINKSDIR=@VAPPLOCALLINKSDIR@
+THEVERSION=@THEVERSION@
+VAPP=@VAPP@
+VAPPTOP=@VAPPTOP@
+TMPDIR=/var/tmp
+SHELL=/bin/bash
+
+VAPPRELEASESNAPSHOTPATH=$(TMPDIR)/$(VAPPRELEASESNAPSHOTNAME)
+VAPPLOCALLINKSDIRNAME=$(notdir $(VAPPLOCALLINKSDIR))
+
+all: installlocallinks
+
+$(VAPPLOCALLINKSDIR):
+	@if [ ! -e $(VAPPLOCALLINKSDIR) ]; then mkdir $(VAPPLOCALLINKSDIR); fi
+
+$(VAPPTOP)/locallinks-are-current: $(VAPPLOCALLINKSDIR)
+	@if [ ! -e $(VAPPLOCALLINKSDIR)/frontend ]; then mkdir -p $(VAPPLOCALLINKSDIR)/frontend; fi
+	@if [ ! -e $(VAPPLOCALLINKSDIR)/backend ]; then mkdir -p $(VAPPLOCALLINKSDIR)/backend; \
+	    						   mkdir -p $(VAPPLOCALLINKSDIR)/backend/AstVisitor;\
+	    						   mkdir -p $(VAPPLOCALLINKSDIR)/backend/IrNode;\
+	    						   mkdir -p $(VAPPLOCALLINKSDIR)/backend/IrVisitor;\
+	    						   mkdir -p $(VAPPLOCALLINKSDIR)/backend/Ms;\
+	    						   mkdir -p $(VAPPLOCALLINKSDIR)/backend/print_templates;\
+	    						   mkdir -p $(VAPPLOCALLINKSDIR)/backend/utils;\
+	 fi
+	@if [ ! -e $(VAPPLOCALLINKSDIR)/include ]; then mkdir -p $(VAPPLOCALLINKSDIR)/include; fi
+	@if [ ! -e $(VAPPLOCALLINKSDIR)/doc ]; then mkdir -p $(VAPPLOCALLINKSDIR)/doc; fi
+	@if [ ! -e $(VAPPLOCALLINKSDIR)/examples ]; then mkdir -p $(VAPPLOCALLINKSDIR)/examples; fi;
+	@-cd $(VAPPLOCALLINKSDIR)/frontend/; ln -s $(VAPPTOP)/frontend/*.m .;
+	@-cd $(VAPPLOCALLINKSDIR)/backend/AstVisitor; ln -s $(VAPPTOP)/backend/AstVisitor/*.m .;
+	@-cd $(VAPPLOCALLINKSDIR)/backend/IrNode; ln -s $(VAPPTOP)/backend/IrNode/*.m .;
+	@-cd $(VAPPLOCALLINKSDIR)/backend/IrVisitor; ln -s $(VAPPTOP)/backend/IrVisitor/*.m .;
+	@-cd $(VAPPLOCALLINKSDIR)/backend/Ms; ln -s $(VAPPTOP)/backend/Ms/*.m .;
+	@-cd $(VAPPLOCALLINKSDIR)/backend/print_templates; ln -s $(VAPPTOP)/backend/print_templates/*.templ .;
+	@-cd $(VAPPLOCALLINKSDIR)/backend/utils; ln -s $(VAPPTOP)/backend/utils/*.m .;\
+	   					 ln -s $(VAPPTOP)/backend/utils/*.va .;
+	@-cd $(VAPPLOCALLINKSDIR)/include/; ln -s $(VAPPTOP)/include/*.h .;\
+	   			            ln -s $(VAPPTOP)/include/*.vams .;
+	@-cd $(VAPPLOCALLINKSDIR)/doc/; ln -s $(VAPPTOP)/doc/*.m .;\
+	   				ln -s $(VAPPTOP)/doc/*.txt .;
+	@for i in `(cd $(VAPPTOP)/examples; find . -type d)`; do \
+	    mkdir -p $(VAPPLOCALLINKSDIR)/examples/$$i;\
+	    cd $(VAPPTOP)/examples/$$i; DOTMFILES=`echo *.m`; \
+	    if [ "$$DOTMFILES" != '*.m' ]; then \
+		    cd $(VAPPLOCALLINKSDIR)/examples/$$i; \
+		    ln -s $(VAPPTOP)/examples/$$i/*.m .; \
+	    fi; \
+	    cd $(VAPPTOP)/examples/$$i; DOTVAFILES=`echo *.va`; \
+	    if [ "$$DOTVAFILES" != '*.va' ]; then \
+		    cd $(VAPPLOCALLINKSDIR)/examples/$$i; \
+		    ln -s $(VAPPTOP)/examples/$$i/*.va .; \
+	    fi; \
+	    cd $(VAPPTOP)/examples/$$i; DOTVAFILES=`echo *.include`; \
+	    if [ "$$DOTVAFILES" != '*.include' ]; then \
+		    cd $(VAPPLOCALLINKSDIR)/examples/$$i; \
+		    ln -s $(VAPPTOP)/examples/$$i/*.include .; \
+	    fi; \
+	done
+	@-cd $(VAPPLOCALLINKSDIR); \
+	    if [ -e $(VAPPTOP)/00-README ]; then ln -s $(VAPPTOP)/0-README .; fi; \
+	    if [ -e $(VAPPTOP)/va2modspec.m ]; then ln -s $(VAPPTOP)/va2modspec.m .; fi;
+	@-cd $(VAPPLOCALLINKSDIR)/examples; \
+	    if [ -e $(VAPPTOP)/examples/README ]; then ln -s $(VAPPTOP)/examples/README .; fi;
+	@-cd $(VAPPLOCALLINKSDIR);
+	@-cp setuppaths_VAPP.m start_VAPP.m $(VAPPLOCALLINKSDIR)
+	@-ln -s $(VAPPLOCALLINKSDIR) VAPP-locallinks-installation
+	@-touch $(VAPPTOP)/locallinks-are-current
+
+install installlocallinks: $(VAPPTOP)/locallinks-are-current
+	@echo ""
+	@echo "$(VAPPLOCALLINKSDIR) directory with soft links created."
+	@echo ""
+	@echo "To load VAPP in MATLAB, copy or link"
+	@echo "    $(VAPPLOCALLINKSDIR)/start_VAPP.m"
+	@echo "into a directory in MATLAB's search path (eg, ~/Documents/MATLAB/)."
+	@echo "After starting MATLAB, just type"
+	@echo "    start_VAPP"
+	@echo "at the MATLAB prompt and VAPP will get loaded."
+	@echo ""
+	@echo "It can be convenient to auto-start VAPP whenever MATLAB is started."
+	@echo "To do this, copy, link or include"
+	@echo "    $(VAPPLOCALLINKSDIR)/start_VAPP.m"
+	@echo "to/in a file named (exactly) startup.m in MATLAB's search path"
+	@echo "(eg, ~/Documents/MATLAB/startup.m). VAPP should then auto-load"
+	@echo "whenever MATLAB is started."
+	@echo ""
+	@echo "To clean up all the files created by autoconf and make:"
+	@echo "    $ make clean autoclean"
+	@echo ""
+
+autoclean: 
+	@rm -fr ./configure config.status autom4te.cache config.log ./Makefile ./start_VAPP.m ./setuppaths_VAPP.m 
+
+cleaneverything: clean autoclean
+
+clean:
+	@-rm -f $(VAPPLOCALLINKSDIR)/setuppaths_VAPP.m $(VAPPLOCALLINKSDIR)/start_VAPP.m
+	@-rm -f $(VAPPTOP)/VAPP-locallinks-installation
+	@-if [ -d $(VAPPLOCALLINKSDIR) ]; then FILES=`find $(VAPPLOCALLINKSDIR) -mindepth 1 -not -type l -not -type d -print`; if [ "$$FILES" != "" ]; then echo "$(VAPPLOCALLINKSDIR) contains non-soft-links: $${FILES}"; echo "Please move the above files out of $(VAPPLOCALLINKSDIR), then run make clean again."; else echo "removing $(VAPPLOCALLINKSDIR)"; rm -fr $(VAPPLOCALLINKSDIR) $(VAPPTOP)/locallinks-are-current; fi; fi

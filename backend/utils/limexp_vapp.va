@@ -1,0 +1,18 @@
+analog function real limexp_vapp;
+    input inVal;
+    output outVal;
+    real inVal, outVal, breakPoint, maxSlope;
+
+    begin
+      breakPoint = 40;
+      maxSlope = exp(40);
+      if (inVal <= breakPoint)
+        begin
+          outVal = exp(inVal);
+        end
+      else
+        begin
+          outVal = maxSlope + maxSlope*(inVal - breakPoint);
+        end
+    end
+endfunction 

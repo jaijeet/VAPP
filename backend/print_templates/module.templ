@@ -1,0 +1,130 @@
+function MOD = %s(uniqID)
+
+%s
+    MOD = ModSpec_common_skeleton();
+
+    MOD.parm_types = {};
+    MOD.u_names = {};
+    MOD.IO_names = {};
+    MOD.OtherIO_names = {};
+    MOD.NIL.io_types = {};
+    MOD.NIL.io_nodenames = {};
+    MOD.limited_var_names = {};
+    MOD.vecXY_to_limitedvars_matrix = [];
+    MOD.uniqID = [];
+
+    MOD.support_initlimiting = 1;
+
+    if nargin > 0
+        MOD.uniqID = uniqID;
+    end
+
+    MOD.model_name = '%s';
+    MOD.NIL.node_names = {%s};
+    MOD.NIL.refnode_name = '%s';
+
+    parmNameDefValArr = {%s};
+
+    nParm = %d;
+    MOD.parm_names = {};
+    MOD.parm_defaultvals = {};
+    MOD.parm_vals = {};
+    MOD.parm_given_flag = zeros(1, nParm);
+    for parmIdx = 1:nParm
+        MOD.parm_names{parmIdx} = parmNameDefValArr{2*parmIdx-1};
+        MOD.parm_defaultvals{parmIdx} = parmNameDefValArr{2*parmIdx};
+        MOD.parm_vals{parmIdx} = parmNameDefValArr{2*parmIdx};
+    end
+
+    [eonames, iunames, ienames] = get_oui_names__(MOD);
+    MOD.explicit_output_names = eonames;
+    MOD.internal_unk_names = iunames;
+    MOD.implicit_equation_names = ienames;
+    MOD.InternalUnkNames = @get_iu_names__;
+    MOD.ImplicitEquationNames = @get_ie_names__;
+
+    MOD = setup_IOnames_OtherIOnames_IOtypes_IOnodenames(MOD);
+
+    MOD.fqeiJ = @fqeiJ;
+    MOD.fe = @fe_from_fqeiJ_ModSpec;
+    MOD.qe = @qe_from_fqeiJ_ModSpec;
+    MOD.fi = @fi_from_fqeiJ_ModSpec;
+    MOD.qi = @qi_from_fqeiJ_ModSpec;
+    MOD.fqei = @fqei_from_fqeiJ_ModSpec;
+    MOD.fqeiJ = @fqeiJ;
+
+    MOD.dfe_dvecX = @dfe_dvecX_from_fqeiJ_ModSpec;
+    MOD.dfe_dvecY = @dfe_dvecY_from_fqeiJ_ModSpec;
+    MOD.dfe_dvecLim = @dfe_dvecLim_from_fqeiJ_ModSpec;
+    MOD.dfe_dvecU = @dfe_dvecU_from_fqeiJ_ModSpec;
+
+    MOD.dqe_dvecX = @dqe_dvecX_from_fqeiJ_ModSpec;
+    MOD.dqe_dvecY = @dqe_dvecY_from_fqeiJ_ModSpec;
+    MOD.dqe_dvecLim = @dqe_dvecLim_from_fqeiJ_ModSpec;
+
+    MOD.dfi_dvecX = @dfi_dvecX_from_fqeiJ_ModSpec;
+    MOD.dfi_dvecY = @dfi_dvecY_from_fqeiJ_ModSpec;
+    MOD.dfi_dvecLim = @dfi_dvecLim_from_fqeiJ_ModSpec;
+    MOD.dfi_dvecU = @dfi_dvecU_from_fqeiJ_ModSpec;
+
+    MOD.dqi_dvecX = @dqi_dvecX_from_fqeiJ_ModSpec;
+    MOD.dqi_dvecY = @dqi_dvecY_from_fqeiJ_ModSpec;
+    MOD.dqi_dvecLim = @dqi_dvecLim_from_fqeiJ_ModSpec;
+end
+
+function [fqei_out, J_out] = fqeiJ(vecX, vecY, vecLim, vecU, flag, MOD)
+    if nargin < 6
+        MOD = flag;
+        flag = vecU;
+        vecU = vecLim;
+    end
+
+    [fe, qe, fi, qi, d_fe_d_X, d_qe_d_X, d_fi_d_X, d_qi_d_X,...
+    d_fe_d_Y, d_qe_d_Y, d_fi_d_Y, d_qi_d_Y] = fqei_dfqeidXYU(vecX, vecY, MOD);
+
+    fqei_out.fe = fe;
+    fqei_out.qe = qe;
+    fqei_out.fi = fi;
+    fqei_out.qi = qi;
+
+    [nFeQe, nFiQi] = get_nfq__(MOD);
+
+    J_out.Jfe.dfe_dvecX = d_fe_d_X;
+    J_out.Jqe.dqe_dvecX = d_qe_d_X;
+    J_out.Jfi.dfi_dvecX = d_fi_d_X;
+    J_out.Jqi.dqi_dvecX = d_qi_d_X;
+    J_out.Jfe.dfe_dvecY = d_fe_d_Y;
+    J_out.Jqe.dqe_dvecY = d_qe_d_Y;
+    J_out.Jfi.dfi_dvecY = d_fi_d_Y;
+    J_out.Jqi.dqi_dvecY = d_qi_d_Y;
+    J_out.Jfe.dfe_dvecU = zeros(nFeQe,0);
+    J_out.Jfi.dfi_dvecU = zeros(nFiQi,0);
+    J_out.Jfe.dfe_dvecLim = zeros(nFeQe, 0);
+    J_out.Jqe.dqe_dvecLim = zeros(nFeQe, 0);
+    J_out.Jfi.dfi_dvecLim = zeros(nFiQi, 0);
+    J_out.Jqi.dqi_dvecLim = zeros(nFiQi, 0);
+end
+
+function [fe__, qe__, fi__, qi__,...
+          d_fe_d_X__, d_qe_d_X__, d_fi_d_X__, d_qi_d_X__,...
+          d_fe_d_Y__, d_qe_d_Y__, d_fi_d_Y__, d_qi_d_Y__] = ...
+         fqei_dfqeidXYU(vecX__, vecY__, MOD__)
+
+    // initializing parameters
+%s
+    [nFeQe__, nFiQi__, nOtherIo__, nIntUnk__] = get_nfq__(MOD__);
+
+    // Initializing outputs
+    fe__ = zeros(nFeQe__,1);
+    qe__ = zeros(nFeQe__,1);
+    fi__ = zeros(nFiQi__,1);
+    qi__ = zeros(nFiQi__,1);
+    // Initializing derivatives
+    d_fe_d_X__ = zeros(nFeQe__,nOtherIo__);
+    d_qe_d_X__ = zeros(nFeQe__,nOtherIo__);
+    d_fi_d_X__ = zeros(nFiQi__,nOtherIo__);
+    d_qi_d_X__ = zeros(nFiQi__,nOtherIo__);
+    d_fe_d_Y__ = zeros(nFeQe__,nIntUnk__);
+    d_qe_d_Y__ = zeros(nFeQe__,nIntUnk__);
+    d_fi_d_Y__ = zeros(nFiQi__,nIntUnk__);
+    d_qi_d_Y__ = zeros(nFiQi__,nIntUnk__);

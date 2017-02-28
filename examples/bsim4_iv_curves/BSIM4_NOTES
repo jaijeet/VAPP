@@ -1,0 +1,14 @@
+%==============================================================================
+% This file is part of VAPP, the Berkeley Verilog-A Parser and Processor.
+% Author: A. Gokcen Mahmutoglu
+% Last modified: Mon Feb 20, 2017  05:22PM
+%==============================================================================
+
+NOTES on BSIM4
+==============
+* BSIM4 has an @(initial_step) section in the Verilog-A model. This section is
+  meant to be executed only once when the model instance is created. However,
+  this feature is not yet supported by ModSpec and VAPP. Hence, when one of the
+  warning messages in this section is called, it will be displayed multiple
+  times (each time the model function is called). This is planned to be fixed
+  in a later version of ModSpec.

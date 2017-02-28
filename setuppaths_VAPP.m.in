@@ -1,0 +1,19 @@
+% basedir is received from the start_VAPP script.
+addpath(sprintf('%s',                                    basedir));
+addpath(sprintf('%s/frontend',                           basedir));
+addpath(sprintf('%s/backend',                            basedir));
+addpath(sprintf('%s/backend/IrVisitor',                  basedir));
+addpath(sprintf('%s/backend/Ms',                         basedir));
+addpath(sprintf('%s/backend/AstVisitor',                 basedir));
+addpath(sprintf('%s/backend/IrNode',                     basedir));
+addpath(sprintf('%s/backend/utils',                      basedir));
+addpath(sprintf('%s/backend/print_templates',            basedir));
+addpath(sprintf('%s/include',                            basedir));
+addpath(sprintf('%s/doc',                                basedir));
+addpath(sprintf('%s/examples/bsim3_ring_oscillator',     basedir));
+addpath(sprintf('%s/examples/bsim4_iv_curves',           basedir));
+addpath(sprintf('%s/examples/bsim6_iv_curves',           basedir));
+addpath(sprintf('%s/examples/mvs1_inverter_transient',   basedir));
+addpath(sprintf('%s/examples/psp_csamp_transient',       basedir));
+addpath(sprintf('%s/examples/r3_self-heating_transient', basedir));
+addpath(sprintf('%s/examples/vbic_diffpair_ac',          basedir));

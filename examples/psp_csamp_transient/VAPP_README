@@ -1,0 +1,31 @@
+%==============================================================================
+% This file is part of VAPP, the Berkeley Verilog-A Parser and Processor.   
+% Author: A. Gokcen Mahmutoglu                                
+% Last modified: Wed Feb 22, 2017  10:44AM
+%==============================================================================
+
+Changes to orginal PSP files for VAPP
+
+1)  Common103_macrodefs.include:
+        
+        `define CLIP_LOW(val,min)      ((val)>(min)?(val):(min))
+        `define CLIP_HIGH(val,max)     ((val)<(max)?(val):(max))
+        `define CLIP_BOTH(val,min,max) ((val)>(min)?((val)<(max)?(val):(max)):(min))
+
+        changed to
+
+        `define CLIP_LOW(val,min_val)      ((val)>(min_val)?(val):(min_val))
+        `define CLIP_HIGH(val,max_val)     ((val)<(max_val)?(val):(max_val))
+        `define CLIP_BOTH(val,min_val,max_val) ((val)>(min_val)?((val)<(max_val)?(val):(max_val)):(min_val))
+
+        Reason: min and max are reserved keywords.
+
+2)  Also added min_val and max_vals to PSP103_module.include
+
+3)  PSP103_module.include:
+        Referenced access functions to noise node (NOI2) to the bulk node (B).
+
+4)  psp103.va:
+        Commented out `ifdef OPderiv
+        
+        VAPP does not support ddx yet.
