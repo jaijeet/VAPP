@@ -21,5 +21,9 @@
 %                         va2modspec takes a Verilog-A file as input and prints
 %                         a ModSpec file as output. The basic usage is as
 %
-%
-%See also VAPPquickstart VAPPexamples va2modspec aboutVAPP
+% 
+%See also
+%--------
+%VAPPquickstart, VAPPexamples, va2modspec, aboutVAPP
+
+help VAPP;

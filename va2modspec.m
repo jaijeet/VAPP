@@ -57,7 +57,9 @@ function va2modspec(inFileName, varargin)
 %       va2modspec('example.va', 'include', '~/va_models/include', ...
 %                  'outputDir', '~/modspec_models');
 %
-% See also MAPP, MODSPEC
+%See also
+%--------
+%VAPPquickstart, VAPPexamples, aboutVAPP
 %
 
 %==============================================================================
