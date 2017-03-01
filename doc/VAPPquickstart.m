@@ -38,7 +38,8 @@
 %************************* USING THE MODEL IN MAPP ****************************
 %
 % (Note: the following example requires MAPP to be installed on your system and
-%        that MAPP has been setup using start_MAPP.m)
+%        that MAPP has been setup using start_MAPP.m. For more information
+%        about MAPP, please visit https://github.com/jaijeet/MAPP/wiki).
 %
 % Copy and paste the following commands at a MATLAB prompt to plot the I-V
 % curves of the model above using MAPP's model_exerciser.
