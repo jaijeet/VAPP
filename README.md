@@ -107,5 +107,23 @@ The following models are available within the examples.
 * [VBIC](http://www.designers-guide.org/VBIC/)
 
 ## Octave Compatibility
-We maintain a separate branch in the repo that is Octave compatible.
-If you are planning to use VAPP with Octave, please check out the Octave\_compatible branch instead of the main branch.
+We maintain a separate *Octave compatible* branch in the VAPP repo.  
+To obtain the Octave compatible version of VAPP, please choose one of the options below.
+
+*   **Option 1: Use git**
+    
+    Clone this repository and change into the cloned directory.
+    ```
+    git clone https://github.com/jaijeet/VAPP.git
+    cd VAPP
+    ```
+    Checkout the `2017-02-27-release-github-Octave_compatible` branch.
+    ```
+    git checkout 2017-02-27-release-github-Octave_compatible 
+    ```
+
+*   **Option 2: Download a snapshot zip file**
+    
+    Download a snapshot of the Octave compatible VAPP using the link below.
+
+    [VAPP-2017-02-27-Octave_compatible](https://github.com/jaijeet/VAPP/archive/2017-02-27-release-github-Octave_compatible.zip)
