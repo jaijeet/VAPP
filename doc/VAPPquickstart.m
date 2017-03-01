@@ -68,4 +68,8 @@
 %
 %   help VAPPexamples
 %
-%See also va2modspec VAPPexamples 
+%See also
+%--------
+%va2modspec, VAPPexamples, aboutVAPP 
+
+help VAPPquickstart;

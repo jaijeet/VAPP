@@ -13,4 +13,8 @@
 %supports a subset of the Verilog-A language. 
 %
 %
-%See also VAPP VAPPquickstart VAPPexamples va2modspec
+%See also
+%--------
+%VAPPquickstart, VAPPexamples, va2modspec
+
+help aboutVAPP;

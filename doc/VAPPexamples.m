@@ -226,3 +226,9 @@
 %     	   out = psiin+2.0*Vtv*log(0.5*(1.0+sqrt(1.0+4.0*exp(-psiin/Vtv))));
 %
 %      by adding an output variable.
+% 
+%See also
+%--------
+%VAPPquickstart, aboutVAPP, va2modspec
+
+help VAPPexamples
