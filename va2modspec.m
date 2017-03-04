@@ -1,5 +1,5 @@
 function va2modspec(inFileName, varargin)
-% VA2MODSPEC translate a Verilog-A model into ModSpec format
+% VA2MODSPEC translates a Verilog-A model into ModSpec format.
 %
 % va2modspec is the main user interface for VAPP. It translates a Verilog-A
 % model into ModSpec format and prints the result into an output file. The name
