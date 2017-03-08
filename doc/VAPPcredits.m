@@ -1,9 +1,14 @@
 %VAPP: Credits
 %-------------
 %
-%A. Gokcen Mahmutoglu   - everything except the frontend AST parser.
+%A. Gokcen Mahmutoglu   - design and implementation of the backend,
+%                         implementation of additional functionalities to the
+%                         frontend.
 %
-%Karthik Aadithya       - the frontend AST parser.
+%Karthik Aadithya       - design and implementation of the frontend AST parser.
+%
+%Xufeng Wang            - implementation of file name/line number information
+%                         for tokens in the frontend.
 %
 %Tianshi Wang           - consultation on MAPP, ModSpec, Verilog-A, etc..
 %
