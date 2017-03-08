@@ -1,4 +1,4 @@
-% Quick User's guide to Berkeley Verilog-A Parser and Processor (VAPP)
+% Quick start guide to the Berkeley Verilog-A Parser and Processor (VAPP)
 %
 %**************************** FIRST QUICK RUN *********************************
 % 
@@ -55,9 +55,9 @@
 %
 %-------------------------END COPY AND PASTE-----------------------------------
 %
-%**************************** USER INTERFACE **********************************
+%**************************** RUNNING VAPP **********************************
 % 
-% va2modspec function constitutes the main user interface for VAPP.
+% call the va2modspec function to run VAPP.
 %
 % For help on input options for va2modspec
 %
@@ -68,6 +68,8 @@
 % For more examples type
 %
 %   help VAPPexamples
+%
+%
 %
 %See also
 %--------
