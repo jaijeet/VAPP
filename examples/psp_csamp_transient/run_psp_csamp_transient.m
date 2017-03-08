@@ -1,7 +1,7 @@
 % Adapted from the MAPP example
 %
 % translate the model
-%va2modspec('psp103.va');
+%va2modspec('psp103.va'); % warning: takes more than 30m to run!
 %
 % set up DAE
 DAE = MNA_EqnEngine(psp_csamp_ckt());

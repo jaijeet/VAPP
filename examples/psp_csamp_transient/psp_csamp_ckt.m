@@ -57,7 +57,7 @@ function cktnetlist = psp_csamp_ckt()
     PSP_model = PSP103VA();
 
     % ckt name
-    cktnetlist.cktname = 'MVS inverter';
+    cktnetlist.cktname = 'PSP common source circuit';
 
     % nodes (names)
     cktnetlist.nodenames = {'vdd', 'in', 'out'};

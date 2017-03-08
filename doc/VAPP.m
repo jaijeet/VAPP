@@ -3,23 +3,19 @@
 %A Quick Introduction to VAPP
 %----------------------------
 %
-%VAPPquickstart         - a tutorial for a simple use case in which you will
+%aboutVAPP              - What is VAPP?
+%
+%VAPPquickstart         - A tutorial for a simple use case in which you will
 %                           - create a simple Verilog-A model
 %                           - translate it to ModSpec using VAPP
 %                           - plot its I-V curve using MAPP
 %
-%VAPP Examples with Common Device Models
-%---------------------------------------
+%va2modspec             - Use this to run VAPP.
 %
-%VAPPexamples           - Use VAPP on common Verilog-A models such as
-%                         BSIM3, BSIM4, BSIM6, MVS, PSP, R3, VBIC.
+%VAPPexamples           - Illustrates VAPP on Verilog-A models such as
+%                         BSIM3, BSIM4, BSIM6, MVS, PSP, R3, and VBIC.
 %
-%General Usage
-%-------------
-%
-%va2modspec             - Information about the main VAPP user interface.
-%                         va2modspec takes a Verilog-A file as input and prints
-%                         a ModSpec file as output. The basic usage is as
+%VAPPcredits            - Identifies the responsible parties.
 %
 % 
 %See also
