@@ -86,7 +86,6 @@ function va2modspec(inFileName, varargin)
 
     pre_process_parms.combine_lines_allow_whitespace = true;
 
-    pre_process_parms.combine_lines_allow_whitespace = true;
     if isempty(includeDir)
         includeDir = fullfile(working_dir, 'include');
     end
