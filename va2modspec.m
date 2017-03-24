@@ -7,8 +7,6 @@ function va2modspec(inFileName, varargin)
 % the module name in the Verilog-A file can be different from the name of the
 % file itself. 
 %
-% Caution: If the output file already exists, VAPP will overwrite it.
-% 
 % VAPP will require an 'include' directory where the files inserted into the
 % model with the `include directives (such as `include "disciplines.vams") in
 % the Verilog-A file are located. By default this directory is assumed to be in
