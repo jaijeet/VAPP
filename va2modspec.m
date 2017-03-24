@@ -168,18 +168,43 @@ function va2modspec(inFileName, varargin)
         outFileName = [outFileBase, '.m'];
     end
 
-    if isempty(outputDir) == false
-        outFileName = [outputDir, '/', outFileName];
+    if isempty(outputDir) == true
+        outputDir = pwd();
     end
-    outFileId = fopen(outFileName, 'w+');
-    if outFileId == -1
-        error(['Could not open the output file for writing. Please make',...
-               ' sure the output directory exists.']);
-    end
-    ig.printModSpec(outFileId);
-    fclose(outFileId);
-    processingTime = toc;
-    fprintf('%.2f seconds\n', processingTime);
+    outFileName = fullfile(outputDir, outFileName);
 
-    fprintf('Done: Output printed to ''%s''\n', outFileName);
+    % if the file exists, we ask if the user wants to overwrite it.
+    % MATLAB's exist function returns 2 when a file is already there. 
+
+    fileExists = false;
+    if exist(outFileName, 'file') == 2
+        fileExists = true;
+    end
+
+    printOutputFile = true;
+    if fileExists == true
+        promptStr = sprintf(['A file with the name "%s" already exists.\n',...
+                          'Do you want to overwrite it? [y/n]: '], outFileName);
+        userInput = input(promptStr, 's');
+        if any(strcmpi(userInput, {'y', 'yes'})) == false
+            printOutputFile = false;
+        end
+
+    end
+
+    if printOutputFile == true
+        outFileId = fopen(outFileName, 'w+');
+        if outFileId == -1
+            error(['Could not open the output file for writing. Please make',...
+                   ' sure the output directory exists.']);
+        end
+        ig.printModSpec(outFileId);
+        fclose(outFileId);
+        processingTime = toc;
+        fprintf('%.2f seconds\n', processingTime);
+
+        fprintf('Done: Output printed to ''%s''\n', outFileName);
+    else
+        fprintf('No output file printed.\n');
+    end
 end
